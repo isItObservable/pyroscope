@@ -1,0 +1,47 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  annotations:
+    meta.helm.sh/release-name: pyroscope
+    meta.helm.sh/release-namespace: pyroscope
+  labels:
+    app.kubernetes.io/instance: pyroscope
+    app.kubernetes.io/managed-by: Helm
+    app.kubernetes.io/name: pyroscope
+    app.kubernetes.io/version: 0.35.1
+    helm.sh/chart: pyroscope-0.2.84
+  name: pyroscope
+  namespace: pyroscope
+data:
+  config.yaml: |
+      metrics-export-rules:
+        productcatalogservice_oteldemo_byspan_cpu_seconds_total:
+          expr: "productcatalogservice.otel-demo.cpu{}"
+          node: "total"
+          labels: ["span_name"]
+
+        checkoutService_oteldemo_cpu_byspan_cpu_seconds_total:
+          expr: "checkoutService.otel-demo.cpu{}"
+          node: "total"
+          group_by: ["span_name"]
+
+
+      log-level: debug
+
+      scrape-configs:
+        - job-name: pyroscope
+          enabled-profiles: [cpu, mem, goroutines, mutex, block]
+
+          static-configs:
+            - application: productcatalogservice.otel-demo
+              spy-name: gospy
+              targets:
+                - example-productcatalogservice.otel-demo.svc:6060
+
+            - application: checkoutService.otel-demo
+              spy-name: gospy
+              targets:
+                - example-checkoutservice.otel-demo.svc:6060
+
+
+

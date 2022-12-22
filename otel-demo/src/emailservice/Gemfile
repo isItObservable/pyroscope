@@ -1,0 +1,12 @@
+source "https://rubygems.org"
+
+gem "net-smtp", "~> 0.3"
+gem "pony",     "~> 1.13"
+gem "puma",     "~> 5.6"
+gem "sinatra",  "~> 2.2"
+
+gem "opentelemetry-sdk",                     "~> 1.2"
+gem "opentelemetry-exporter-otlp",           "~> 0.24"
+gem "opentelemetry-instrumentation-sinatra", "~> 0.21.1"
+gem  "pyroscope-otel","~> 0.1.1"
+gem  "pyroscope","~> 0.5.1"
